@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_baseline_fiber_manual_record_24">
+    <target
+        android:name="dot"
+        android:animation="@animator/fillalpha"/>
+</animated-vector>
+
+
+
