@@ -48,7 +48,7 @@
         android:id="@+id/seconds_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="5dp"
         android:singleLine="true"
         android:text="Seconds"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
