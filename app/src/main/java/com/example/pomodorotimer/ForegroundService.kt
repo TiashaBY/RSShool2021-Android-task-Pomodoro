@@ -123,7 +123,7 @@ class ForegroundService : Service() {
 
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName = "pomodoro"
+            val channelName = "Pomodoro"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val notificationChannel = NotificationChannel(
                 CHANNEL_ID, channelName, importance

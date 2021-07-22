@@ -2,6 +2,7 @@ package com.example.pomodorotimer
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
     private var stopwatches = mutableListOf<Stopwatch>()
     private var nextId = 0
     private val stopwatchAdapter = StopwatchAdapter(this)
+
+    private var isInForeground = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,20 +71,26 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
                 if (secondsText.isNotEmpty()) seconds = secondsText.toString().toInt()
 
                 if (minutes + seconds == 0) {
-                    Toast.makeText(applicationContext, "Enter time", Toast.LENGTH_SHORT).show()
+                    showToast("Enter at least 1 second")
                     null
                 } else {
                     (((minutes * 60) + seconds) * 1000).toLong()
                 }
             } catch (ex: NumberFormatException) {
-                Toast.makeText(applicationContext, "Incorrect number was entered, check max and min values", Toast.LENGTH_SHORT).show()
+                showToast("Incorrect number was entered, check max and min values")
                 null
             }
         }
     }
 
+    private fun showToast(msg: String) {
+        if (isInForeground) {
+            Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun start(id: Int) {
-        stopwatches.filter { it.isRunning == true && it.id !=id }.map { pause(it.id) }
+        stopwatches.filter { it.isRunning && it.id !=id }.map { pause(it.id) }
         modifyStopwatch(id, null, true)
     }
 
@@ -91,7 +100,7 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
 
     override fun finish(id: Int) {
         pause(id)
-        Toast.makeText(this, "Timer has finished", Toast.LENGTH_SHORT).show()
+        showToast("Timer has finished")
     }
 
     override fun delete(id: Int) {
@@ -112,22 +121,26 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
+        Log.d("app", "app is backgrounded")
         if (stopwatches.isNotEmpty()) {
             val runningStopwatch = stopwatches.firstOrNull { it.isRunning }
             runningStopwatch?.let {
                 val startIntent = Intent(this, ForegroundService::class.java)
                 startIntent.putExtra(COMMAND_ID, COMMAND_START)
-                startIntent.putExtra(STARTED_TIMER_TIME_MS, runningStopwatch.currentMsec)
+                startIntent.putExtra(STARTED_TIMER_TIME_MS, it.currentMsec)
                 startService(startIntent)
             }
         }
+        isInForeground = false
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
+        Log.d("app", "app is foregrounded")
         val stopIntent = Intent(this, ForegroundService::class.java)
         stopIntent.putExtra(COMMAND_ID, COMMAND_STOP)
         startService(stopIntent)
+        isInForeground = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
