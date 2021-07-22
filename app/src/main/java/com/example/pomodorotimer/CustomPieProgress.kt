@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.ProgressBar
+import kotlin.math.roundToInt
 
 open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
                                                        defaultAttrs: Int = 0)
@@ -31,8 +32,8 @@ open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    override fun setProgress(progress: Int) {
-        this.progr = ((360 * progress) / 100)
+    fun updateProgress(progress: Int) {
+        this.progr = ((360 * progress).toDouble() / 100).roundToInt()
         invalidate()
     }
 

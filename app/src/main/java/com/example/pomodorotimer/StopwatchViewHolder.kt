@@ -28,7 +28,7 @@ class StopwatchViewHolder(
 
     fun bind(stopwatch: Stopwatch) {
         binding.stopwatchTimer.text = stopwatch.currentMsec.displayTime()
-        binding.progressBar.progress = stopwatch.getProgress()
+        binding.progressBar.updateProgress(stopwatch.getProgress())
         binding.startStopButton.visibility = VISIBLE
         itemView.setBackgroundColor(Color.WHITE)
             if (stopwatch.isRunning && stopwatch.currentMsec >= 0L) {
@@ -77,7 +77,7 @@ class StopwatchViewHolder(
             override fun onTick(millisUntilFinished: Long) {
                 stopwatch.currentMsec = millisUntilFinished
                 binding.stopwatchTimer.text = stopwatch.currentMsec.displayTime()
-                binding.progressBar.progress = stopwatch.getProgress()
+                binding.progressBar.updateProgress(stopwatch.getProgress())
             }
             override fun onFinish() {
                 binding.stopwatchTimer.text = START_TIME
