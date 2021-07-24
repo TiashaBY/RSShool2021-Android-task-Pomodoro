@@ -8,13 +8,13 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.ProgressBar
 import com.example.pomodorotimer.R
-import kotlin.math.roundToInt
 
 open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
                                                        defaultAttrs: Int = 0)
     : ProgressBar(context, attrs, defaultAttrs) {
 
-    var progr: Int = 0
+    private var progr: Float = 0F
+    private var minProgress = 0.005F
     private var painter = Paint()
 
     init {
@@ -33,8 +33,11 @@ open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    fun updateProgress(progress: Int) {
-        this.progr = ((360 * progress).toDouble() / 100).roundToInt()
+    fun updateProgress(progress: Float) {
+        //this is made to show the smallest sector of progress when timer is started instead of empty circle
+        if (progress > 0) {
+            this.progr = 360 * if (progress < minProgress)  minProgress else progress
+        }
         invalidate()
     }
 
@@ -49,6 +52,6 @@ open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: 
         }
 
         val oval = RectF(x, y, width - x, height - y)
-        canvas.drawArc(oval, -90F, -progr.toFloat(), true, painter)
+        canvas.drawArc(oval, -90F, progr, true, painter)
     }
 }

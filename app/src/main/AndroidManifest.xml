@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PomodoroTimer">
         <activity android:name=".MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

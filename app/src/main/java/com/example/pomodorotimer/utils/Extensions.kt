@@ -5,7 +5,7 @@ fun Long.displayTime(): String {
         return START_TIME
     }
 
-    val msToVisualize = this + 999 //to show how many seconds really passed, so for the last one it will be 1 and 0 at the 'real' end
+    val msToVisualize = this + 500 //to show how many seconds really passed, so for the last one it will be 1 and 0 at the 'real' end
     val h = msToVisualize / 1000 / 3600
     val m = msToVisualize / 1000 % 3600 / 60
     val s = msToVisualize / 1000 % 60

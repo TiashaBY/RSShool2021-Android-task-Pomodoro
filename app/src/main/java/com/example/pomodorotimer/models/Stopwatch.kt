@@ -18,8 +18,8 @@ data class Stopwatch(val id: Int, var currentMsec: Long, var isRunning: Boolean 
         fullTimerMs = currentMsec
     }
 
-    fun getProgress(): Int {
-        return (currentMsec * 100 / fullTimerMs).toInt()
+    fun getProgress(): Float {
+        return ((fullTimerMs - currentMsec).toFloat() / fullTimerMs)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
