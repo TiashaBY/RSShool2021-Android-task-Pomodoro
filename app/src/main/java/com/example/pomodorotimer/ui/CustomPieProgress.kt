@@ -1,4 +1,4 @@
-package com.example.pomodorotimer
+package com.example.pomodorotimer.ui
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.ProgressBar
+import com.example.pomodorotimer.R
 import kotlin.math.roundToInt
 
 open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,

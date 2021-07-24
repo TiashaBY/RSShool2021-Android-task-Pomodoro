@@ -1,4 +1,4 @@
-package com.example.pomodorotimer
+package com.example.pomodorotimer.models
 
 import android.os.Parcel
 import android.os.Parcelable

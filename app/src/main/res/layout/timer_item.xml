@@ -37,7 +37,7 @@
             app:layout_constraintStart_toEndOf="@id/dot"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.pomodorotimer.CustomPieProgress
+        <com.example.pomodorotimer.ui.CustomPieProgress
             android:id="@+id/progressBar"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -52,7 +52,7 @@
             android:id="@+id/startStopButton"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="START"
+            android:text="@string/start_button_label"
             android:gravity="center"
             android:textSize="15sp"
             android:layout_marginStart="5dp"

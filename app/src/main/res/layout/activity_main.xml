@@ -25,18 +25,18 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="20dp"
         android:singleLine="true"
-        android:text="Minutes"
+        android:text="@string/minutes_label"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toStartOf="@+id/minutes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline" />
 
-    <EditText
+    <com.example.pomodorotimer.ui.ClearFocusEditText
         android:id="@+id/minutes"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:digits="0123456789"
-        android:hint="max 480"
+        android:hint="@string/max_480"
         android:maxLength="3"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
@@ -50,19 +50,19 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:singleLine="true"
-        android:text="Seconds"
+        android:text="@string/seconds_label"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toStartOf="@+id/seconds"
         app:layout_constraintStart_toEndOf="@id/minutes"
         app:layout_constraintTop_toBottomOf="@id/guideline" />
 
-    <EditText
+    <com.example.pomodorotimer.ui.ClearFocusEditText
         android:id="@+id/seconds"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:digits="0123456789"
-        android:hint="max 60"
+        android:hint="@string/max_60"
         android:maxLength="2"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
@@ -96,11 +96,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:singleLine="true"
-        android:text="Add timer"
+        android:text="@string/add_timer_btn_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_bottom" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

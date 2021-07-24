@@ -1,14 +1,16 @@
-package com.example.pomodorotimer
+package com.example.pomodorotimer.ui
 
 import android.graphics.Color
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.example.pomodorotimer.R
+import com.example.pomodorotimer.StopWatchListener
 import com.example.pomodorotimer.databinding.TimerItemBinding
+import com.example.pomodorotimer.models.Stopwatch
 import com.example.pomodorotimer.utils.START_TIME
 import com.example.pomodorotimer.utils.UNIT_MS
 import com.example.pomodorotimer.utils.displayTime
@@ -27,15 +29,13 @@ class StopwatchViewHolder(
     }
 
     fun bind(stopwatch: Stopwatch) {
-        binding.stopwatchTimer.text = stopwatch.currentMsec.displayTime()
-        binding.progressBar.updateProgress(stopwatch.getProgress())
-        binding.startStopButton.visibility = VISIBLE
-        itemView.setBackgroundColor(Color.WHITE)
+        initializeDefaults(stopwatch)
+        val viewContext = itemView.context
             if (stopwatch.isRunning && stopwatch.currentMsec >= 0L) {
-                binding.startStopButton.text = "STOP"
+                binding.startStopButton.text = viewContext.getString(R.string.stop_button_label)
                 runTimer(stopwatch)
             } else {
-                binding.startStopButton.text = "START"
+                binding.startStopButton.text = viewContext.getString(R.string.start_button_label)
 
                 if (stopwatch.currentMsec == -1L) {
                     binding.startStopButton.visibility = INVISIBLE
@@ -44,7 +44,14 @@ class StopwatchViewHolder(
                 }
                 stopTimer()
             }
-            initButtonsListeners(stopwatch)
+        initButtonsListeners(stopwatch)
+    }
+
+    private fun initializeDefaults(stopwatch: Stopwatch) {
+        binding.stopwatchTimer.text = stopwatch.currentMsec.displayTime()
+        binding.progressBar.updateProgress(stopwatch.getProgress())
+        binding.startStopButton.visibility = VISIBLE
+        itemView.setBackgroundColor(Color.WHITE)
     }
 
     private fun initButtonsListeners(stopwatch: Stopwatch) {
@@ -59,7 +66,7 @@ class StopwatchViewHolder(
     }
 
     private fun runTimer(stopwatch: Stopwatch) {
-        binding.dot.visibility = View.VISIBLE
+        binding.dot.visibility = VISIBLE
         vectorDot?.start()
         timer?.cancel()
         timer = getCountDownTimer(stopwatch)

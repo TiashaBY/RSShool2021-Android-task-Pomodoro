@@ -3,6 +3,7 @@ package com.example.pomodorotimer
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -12,6 +13,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pomodorotimer.databinding.ActivityMainBinding
+import com.example.pomodorotimer.models.Stopwatch
+import com.example.pomodorotimer.ui.StopwatchAdapter
 import com.example.pomodorotimer.utils.*
 
 
@@ -44,8 +47,8 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
 
         }
 
-        binding.minutes.filters = arrayOf(MinMaxFilter("0", "480"))
-        binding.seconds.filters = arrayOf(MinMaxFilter("0", "60"))
+        (binding.minutes as EditText).filters = arrayOf(MinMaxFilter("0", "480"))
+        (binding.seconds as EditText).filters = arrayOf(MinMaxFilter("0", "60"))
 
         binding.add.setOnClickListener {
             getTimerMs()?.let {
@@ -57,27 +60,27 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
     }
 
     private fun getTimerMs() : Long? {
-        return if (binding.minutes.text.toString().isEmpty() && binding.seconds.text.toString().isEmpty()) {
-            Toast.makeText(applicationContext, "Enter time", Toast.LENGTH_SHORT).show()
+        val min = (binding.minutes  as EditText).text.toString()
+        val sec = (binding.seconds as EditText).text.toString()
+        return if (min.isEmpty() && sec.isEmpty()) {
+            Toast.makeText(applicationContext, getString(R.string.no_time_error), Toast.LENGTH_SHORT).show()
             null
         } else {
             try {
-                val minutesText = binding.minutes.text
                 var minutes = 0
-                if (minutesText.isNotEmpty()) minutes = minutesText.toString().toInt()
+                if (min.isNotEmpty()) minutes = min.toInt()
 
-                val secondsText = binding.seconds.text
                 var seconds = 0
-                if (secondsText.isNotEmpty()) seconds = secondsText.toString().toInt()
+                if (sec.isNotEmpty()) seconds = sec.toInt()
 
                 if (minutes + seconds == 0) {
-                    showToast("Enter at least 1 second")
+                    showToast(getString(R.string.no_time_error))
                     null
                 } else {
                     (((minutes * 60) + seconds) * 1000).toLong()
                 }
             } catch (ex: NumberFormatException) {
-                showToast("Incorrect number was entered, check max and min values")
+                showToast(getString(R.string.incorrect_number))
                 null
             }
         }
@@ -100,7 +103,7 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
 
     override fun finish(id: Int) {
         pause(id)
-        showToast("Timer has finished")
+        showToast(getString(R.string.timer_done))
     }
 
     override fun delete(id: Int) {

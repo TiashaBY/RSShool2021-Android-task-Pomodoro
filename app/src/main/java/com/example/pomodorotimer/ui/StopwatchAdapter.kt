@@ -1,13 +1,17 @@
-package com.example.pomodorotimer
+package com.example.pomodorotimer.ui
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.pomodorotimer.StopWatchListener
 import com.example.pomodorotimer.databinding.TimerItemBinding
+import com.example.pomodorotimer.models.Stopwatch
 
-class StopwatchAdapter (private val listener: StopWatchListener): ListAdapter<Stopwatch, StopwatchViewHolder>(itemComparator) {
+class StopwatchAdapter (private val listener: StopWatchListener): ListAdapter<Stopwatch, StopwatchViewHolder>(
+    itemComparator
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StopwatchViewHolder {
         Log.d("run","onCreateViewHolder")

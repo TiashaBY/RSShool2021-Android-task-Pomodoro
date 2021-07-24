@@ -85,7 +85,7 @@ class ForegroundService : Service() {
                 )
                 delay(INTERVAL)
             }
-            notificationManager?.notify(NOTIFICATION_ID, getNotification("Timer run out of time!"))
+            notificationManager?.notify(NOTIFICATION_ID, getNotification(getString(R.string.timer_done)))
         }
     }
 
