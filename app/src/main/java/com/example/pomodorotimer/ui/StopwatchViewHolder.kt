@@ -13,6 +13,7 @@ import com.example.pomodorotimer.databinding.TimerItemBinding
 import com.example.pomodorotimer.models.Stopwatch
 import com.example.pomodorotimer.utils.START_TIME
 import com.example.pomodorotimer.utils.UNIT_MS
+import com.example.pomodorotimer.utils.UNIT_MS_SMALL
 import com.example.pomodorotimer.utils.displayTime
 
 class StopwatchViewHolder(
@@ -36,9 +37,7 @@ class StopwatchViewHolder(
                 runTimer(stopwatch)
             } else {
                 binding.startStopButton.text = viewContext.getString(R.string.start_button_label)
-
-                if (stopwatch.currentMsec == -1L) {
-                    binding.startStopButton.visibility = INVISIBLE
+                if (stopwatch.isFinished) {
                     itemView.setBackgroundColor(Color.rgb(220, 220, 220))
                     Log.d("run", "${stopwatch.id} finished")
                 }
@@ -68,6 +67,7 @@ class StopwatchViewHolder(
     private fun runTimer(stopwatch: Stopwatch) {
         binding.dot.visibility = VISIBLE
         vectorDot?.start()
+        if (stopwatch.isFinished) stopwatch.isFinished = false
         timer?.cancel()
         timer = getCountDownTimer(stopwatch)
         timer?.start()
@@ -80,7 +80,8 @@ class StopwatchViewHolder(
     }
 
     private fun getCountDownTimer(stopwatch: Stopwatch): CountDownTimer {
-        return object : CountDownTimer(stopwatch.currentMsec, UNIT_MS) {
+        return object : CountDownTimer(stopwatch.currentMsec,
+            if (stopwatch.fullTimerMs >= 60 * 1000) UNIT_MS else UNIT_MS_SMALL) {
             override fun onTick(millisUntilFinished: Long) {
                 stopwatch.currentMsec = millisUntilFinished
                 binding.stopwatchTimer.text = stopwatch.currentMsec.displayTime()
@@ -88,8 +89,10 @@ class StopwatchViewHolder(
             }
             override fun onFinish() {
                 binding.stopwatchTimer.text = START_TIME
+                stopwatch.isFinished = true
                 stopwatch.isRunning = false
-                stopwatch.currentMsec = -1L
+                stopwatch.currentMsec = 0
+                binding.progressBar.updateProgress(stopwatch.getProgress())
                 this.cancel()
                 listener.finish(stopwatch.id)
             }

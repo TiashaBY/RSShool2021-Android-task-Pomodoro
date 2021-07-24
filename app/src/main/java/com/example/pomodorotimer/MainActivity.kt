@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity(), StopWatchListener, LifecycleObserver {
     }
 
     override fun finish(id: Int) {
-        pause(id)
+        val index = stopwatches.indexOfFirst { it.id == id }
+        modifyStopwatch(id, stopwatches[index].fullTimerMs, false)
         showToast(getString(R.string.timer_done))
     }
 

@@ -11,7 +11,8 @@ const val NOTIFICATION_ID = 777
 const val INTERVAL = 1000L
 
 const val START_TIME = "00:00:00"
-const val UNIT_MS = 50L
+const val UNIT_MS = 500L
+const val UNIT_MS_SMALL = 10L
 
 const val STOPWATCHES = "STOPWATCHES"
 const val SAVED_BUNDLE = "SAVED_BUNDLE"

@@ -37,6 +37,8 @@ open class CustomPieProgress @JvmOverloads constructor(context: Context, attrs: 
         //this is made to show the smallest sector of progress when timer is started instead of empty circle
         if (progress > 0) {
             this.progr = 360 * if (progress < minProgress)  minProgress else progress
+        } else {
+            this.progr = progress
         }
         invalidate()
     }

@@ -4,7 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Stopwatch(val id: Int, var currentMsec: Long, var isRunning: Boolean = false) : Parcelable {
-    private var fullTimerMs: Long = 0
+    var fullTimerMs: Long = 0
+    var isFinished = false
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
